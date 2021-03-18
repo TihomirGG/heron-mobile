@@ -1,8 +1,16 @@
+import './Home.scss';
+import Slideshow from '../../Components/Slideshow/Slideshow';
+import PageLayout from '../../Components/PageLayout/PageLayout';
+import HeadCards from '../../Components/HomeCards/HomeCards';
+
 function Home(props) {
     return (
-        <div className="page-wrapper">
-            <h2>Home</h2>
-        </div>
+        
+            <PageLayout>
+                <Slideshow />
+                <HeadCards />
+            </PageLayout>
+        
     );
 }
 

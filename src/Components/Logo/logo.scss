@@ -1,0 +1,29 @@
+.title {
+    display: flex;
+    align-items: center;
+    position: relative;
+    color: #E4E6EB;
+
+    &__logo-wrapper {
+        width: 64px;
+        margin-right: 30px;
+
+        &::after {
+            content: '';
+            position: absolute;
+            border-right: 2px solid #E4E6EB;
+            height: 100%;
+            left: 75px;
+        }
+    }
+
+    &__header-logo {
+        width: 100%;
+    }
+
+    &__heading {
+        font-family: 'Roboto Mono', monospace;
+        font-size: 30px;
+        align-self: center;
+    }
+}

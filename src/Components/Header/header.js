@@ -1,19 +1,18 @@
 import { Component } from 'react';
+import HeaderButtons from '../HeaderButtons/HeaderButtons';
+import Logo from '../Logo/Logo';
 import './header.scss';
-
 class Header extends Component {
-  constructor(props) {
-    super(props);
-  }
+    
 
-  render() {
-    return (
-      <header>
-        <p>hello from header</p>
-        <ul></ul>
-      </header>
-    );
-  }
+    render() {
+        return (
+            <nav className="header-navigation">
+                <Logo />
+                <HeaderButtons />
+            </nav>
+        );
+    }
 }
 
 export default Header;
