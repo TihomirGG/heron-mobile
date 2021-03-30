@@ -6,5 +6,6 @@ export default {
    SHOP:'/shop',
    SHOPPING_CART:'/shopping-cart',
    PROFILE:'/profile/',
-   ADMIN:'/admin'
+   ADMIN:'/admin',
+   SHOP:'/shop'
 }
