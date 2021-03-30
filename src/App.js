@@ -6,15 +6,11 @@ import Register from './Pages/Register';
 import ROUTES from './Constants/Routes';
 import Profile from './Pages/Profile';
 import About from './Pages/About';
-import { useContext } from 'react';
-import { FirebaseContext } from './Firebase';
+import Admin from './Pages/Admin';
 
 function App(props) {
-    const { logOutUser } = useContext(FirebaseContext);
-
     return (
-        <div className="app" value={props.value}>
-            {console.log(props.value)}
+        <div className="app">
             <Router>
                 <Switch>
                     <Route exact path={ROUTES.SIGN_UP}>
@@ -32,7 +28,9 @@ function App(props) {
                     <Route exact path={ROUTES.ABOUT}>
                         <About />
                     </Route>
-                    <Route>{logOutUser()}</Route>
+                    <Route exact path={ROUTES.ADMIN}>
+                        <Admin />
+                    </Route>
                 </Switch>
             </Router>
         </div>
