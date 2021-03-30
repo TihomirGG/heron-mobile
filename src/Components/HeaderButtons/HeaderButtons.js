@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FirebaseContext } from '../../Firebase';
 import ROUTES from '../../Constants/Routes';
-import { keyGenerator } from '../../utils';
+import { keyGenerator } from '../../Utils';
 import './HeaderButtons.scss';
 
 function HeaderButtons(props) {
@@ -27,12 +27,12 @@ function HeaderButtons(props) {
             linkData: { to: `${ROUTES.PROFILE}${user && user.uid}` },
         },
         {
-            content: <i class="fas fa-shopping-cart"></i>,
+            content: <i className="fas fa-shopping-cart"></i>,
             key: keyGenerator(),
             linkData: { to: ROUTES.SHOPPING_CART },
         },
         { content: 'About', key: keyGenerator(), linkData: { to: ROUTES.ABOUT } },
-        { content: 'LogOut', key: keyGenerator(), linkData: { onClick: onClickHandler } },
+        { content: 'LogOut', key: keyGenerator(), linkData: { onClick: onClickHandler,to: ROUTES.SING_IN} },
     ];
 
     const loggedInButtons = () => {

@@ -39,6 +39,7 @@ class Slideshow extends Component {
     }
 
     transitionEndHandler = e => {
+        this.clientWidth = this.firstPhotoRef.current.clientWidth;
         console.log(this.allSlides);
         if (this.index === 2) {
             this.firstTimeOut = setTimeout(() => {
