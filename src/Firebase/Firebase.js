@@ -49,6 +49,20 @@ class Firebase {
         return new Promise((resolve, reject) => this.auth.signOut().then(resolve).catch(reject));
     };
 
+    getCurrentUserInfo = () => {
+        const uid = this.auth.currentUser.uid;
+        return this.db
+            .collection('users')
+            .doc(uid)
+            .get()
+            .then(user => {
+                return user;
+            })
+            .catch(x => {
+                return 'NO USER';
+            });
+    };
+
     takeCategoryTypes = category => {
         return this.db
             .collection('categories')
