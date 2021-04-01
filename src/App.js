@@ -10,6 +10,7 @@ import Admin from './Pages/Admin';
 import Shop from './Pages/Shop';
 import { useContext } from 'react';
 import { FirebaseContext } from './Firebase';
+import Details from './Pages/Details';
 
 function App(props) {
     const fireBase = useContext(FirebaseContext);
@@ -38,7 +39,7 @@ function App(props) {
                     <Route exact path={ROUTES.HOME}>
                         {currentUser ? <Redirect to="/shop" /> : <Home />}
                     </Route>
-                    <Route exact path={`${ROUTES.PROFILE}:id`}>
+                    <Route exact path={ROUTES.PROFILE}>
                         {currentUser ? <Profile /> : <Redirect to="/login" />}
                     </Route>
                     <Route exact path={ROUTES.ABOUT}>
@@ -49,6 +50,12 @@ function App(props) {
                     </Route>
                     <Route exact path={ROUTES.SHOP}>
                         {currentUser ? <Shop /> : <Redirect to="/login" />}
+                    </Route>
+                    <Route exact path={ROUTES.CASES}>
+                        {currentUser ? <Shop /> : <Redirect to="/login" />}
+                    </Route>
+                    <Route exact path={ROUTES.DETAILS}>
+                        {currentUser ? <Details /> : <Redirect to="/login" />}
                     </Route>
                 </Switch>
             </Router>

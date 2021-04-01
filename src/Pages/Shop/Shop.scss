@@ -1,0 +1,93 @@
+.shop-wrapper {
+    width: 80%;
+    margin: 0 auto;
+
+    &__header {
+        font-family: 'Roboto Mono', monospace;
+        margin: 0 auto;
+        margin-top: 40px;
+        text-align: center;
+        color: #e4e6eb;
+        font-size: 32px;
+        margin-bottom: 40px;
+    }
+
+    &__shop-cards-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+    
+
+    &__shop-cards-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__card-link {
+        margin-bottom: 20px;
+    }
+
+    &__shop-cards-wrapper:last-child {
+        margin-bottom: 40px;
+    }
+
+
+    &__card-link:nth-child(even) > &__shop-card {
+        flex-direction: row-reverse;
+    }
+
+    
+
+    &__shop-card {
+        background-color: #242526;
+        height: 350px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__shop-card:nth-child(even) {
+        flex-direction: row-reverse;
+    }
+
+    &__shop-img-container {
+        flex-basis: 45%;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__shop-content {
+        text-decoration: none;
+        flex-basis: 50%;
+        margin-right: 10px;
+    }
+
+    &__card-link:nth-child(even)  &__shop-content {
+        margin-right: 0;
+        margin-left: 10px;
+    }
+
+    &__subheader {
+        text-decoration: none;
+        font-family: 'Roboto Mono', monospace;
+        color: #e4e6eb;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        font-size: 20px;
+    }
+
+    &__text {
+        text-decoration: none;
+        color: #e4e6eb;
+        letter-spacing: 0.3px;
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 16px;
+        white-space: pre-wrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
