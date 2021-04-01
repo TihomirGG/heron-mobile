@@ -5,7 +5,7 @@ function PageLayout(props) {
     return (
         <div className="page-wrapper">
             <Header />
-             {props.children}
+            <div className="page-wrapper__content">{props.children}</div>
             <Footer />
         </div>
     );
