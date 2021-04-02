@@ -5,11 +5,11 @@ export default {
     ABOUT: '/about',
     SHOP: '/shop',
     SHOPPING_CART: '/shopping-cart',
-    PROFILE: '/profile/:id',
+    PROFILE: '/profile/',
     ADMIN: '/admin',
     SHOP: '/shop',
     CASES: '/shop/cases',
     PROTECTORS: '/shop/protectors',
     CABLES: '/shop/cables',
-    DETAILS: '/details/:id',
+    DETAILS: '/details/',
 };

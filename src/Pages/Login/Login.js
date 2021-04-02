@@ -28,7 +28,7 @@ class Login extends Component {
         const { history } = this.props;
         loginUser(email, password)
         .then(_ => {
-            history.push('/');
+            history.push('/shop');
         });
     };
 

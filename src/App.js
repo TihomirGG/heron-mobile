@@ -15,50 +15,65 @@ import Details from './Pages/Details';
 function App(props) {
     const fireBase = useContext(FirebaseContext);
     const [userType, setUserType] = useState(null);
-    const [currentUser, setCurrentUser] = useState(null);
+    const [user, setUser] = useState(null);
+    let userSub = '';
 
     useEffect(() => {
-        const user = fireBase.auth.currentUser;
+        userSub = fireBase.auth.onAuthStateChanged(user => {
+            if (user) {
+                setUser(user.uid);
+            } else {
+                setUser(null);
+            }
+        });
+
+        return () => {
+            userSub();
+        };
+    }, []);
+
+    useEffect(() => {
         if (user) {
             fireBase.getCurrentUserInfo().then(x => {
                 const { type } = x;
-
                 setUserType(type);
             });
+        } else {
+            setUserType(null);
         }
-        setCurrentUser(user);
-    }, []);
+    }, [user]);
 
     return (
         <div className="app">
             <Router>
                 <Switch>
                     <Route exact path={ROUTES.ADMIN}>
-                        {userType==='admin' ? <Admin /> : <Redirect to="/login" />}
+                        {console.log(userType)}
+                        {userType === 'admin' ? <Admin /> : <Redirect to="/login" />}
                     </Route>
                     <Route exact path={ROUTES.SIGN_UP}>
-                        {currentUser ? <Redirect to="/shop" /> : <Register />}
+                        {user ? <Redirect to="/shop" /> : <Register />}
                     </Route>
                     <Route exact path={ROUTES.SING_IN}>
-                        {currentUser ? <Redirect to="/shop" /> : <Login />}
+                        {user ? <Redirect to="/shop" /> : <Login />}
                     </Route>
                     <Route exact path={ROUTES.HOME}>
-                        {currentUser ? <Redirect to="/shop" /> : <Home />}
+                        {user ? <Redirect to="/shop" /> : <Home />}
                     </Route>
-                    <Route exact path={ROUTES.PROFILE}>
-                        {currentUser ? <Profile /> : <Redirect to="/login" />}
+                    <Route exact path={`${ROUTES.PROFILE}:id`}>
+                        {user ? <Profile /> : <Redirect to="/login" />}
                     </Route>
                     <Route exact path={ROUTES.ABOUT}>
                         <About />
                     </Route>
                     <Route exact path={ROUTES.SHOP}>
-                        {currentUser ? <Shop /> : <Redirect to="/login" />}
+                        {user ? <Shop /> : <Redirect to="/login" />}
                     </Route>
                     <Route exact path={ROUTES.CASES}>
-                        {currentUser ? <Shop /> : <Redirect to="/login" />}
+                        {user ? <Shop /> : <Redirect to="/login" />}
                     </Route>
-                    <Route exact path={ROUTES.DETAILS}>
-                        {currentUser ? <Details /> : <Redirect to="/login" />}
+                    <Route exact path={`${ROUTES.DETAILS}:id`}>
+                        {user ? <Details /> : <Redirect to="/login" />}
                     </Route>
                 </Switch>
             </Router>

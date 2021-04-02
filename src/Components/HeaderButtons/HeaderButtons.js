@@ -9,14 +9,25 @@ function HeaderButtons(props) {
     const history = useHistory();
     const { auth, logOutUser, getCurrentUserInfo } = useContext(FirebaseContext);
     const [userType, setUserType] = useState(null);
+    const [user, setUser] = useState('');
+    let userSub = null;
 
     useEffect(() => {
+        userSub = auth.onAuthStateChanged(user => {
+            if (user) {
+                setUser(user.uid);
+            }
+        });
         if (auth.currentUser) {
             getCurrentUserInfo().then(x => {
                 const { type } = x;
                 setUserType(type);
             });
         }
+
+        return () => {
+            userSub();
+        };
     }, []);
 
     const onClickHandler = () => {
@@ -41,7 +52,7 @@ function HeaderButtons(props) {
             linkData: { to: ROUTES.SHOPPING_CART },
         },
         { content: 'About', key: keyGenerator(), linkData: { to: ROUTES.ABOUT } },
-        { content: 'LogOut', key: keyGenerator(), linkData: { onClick: onClickHandler, to: ROUTES.SING_IN } },
+        { content: 'LogOut', key: keyGenerator(), linkData: { onClick: onClickHandler} },
     ];
 
     const loggedInButtons = () => {
@@ -70,7 +81,7 @@ function HeaderButtons(props) {
 
     return (
         <ul className="buttons-wrapper">
-            {auth.currentUser ? loggedInButtons() : loggedOutButtons()}
+            {user ? loggedInButtons() : loggedOutButtons()}
             {userType === 'admin' ? (
                 <li className="buttons-wrapper__header-btn">
                     <Link className="buttons-wrapper__header-anchor" to="/admin">
