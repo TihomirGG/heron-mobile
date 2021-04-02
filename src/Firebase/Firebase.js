@@ -27,7 +27,6 @@ class Firebase {
             .createUserWithEmailAndPassword(email, password)
             .then(x => {
                 const userData = { email: x.user.email, uid: x.user.uid, adress: '', orders: 0, type: 'user' };
-                console.log(userData);
                 this.db
                     .collection('users')
                     .doc(x.user.uid)
@@ -46,7 +45,7 @@ class Firebase {
     };
 
     logOutUser = () => {
-        return new Promise((resolve, reject) => this.auth.signOut().then(resolve).catch(reject));
+            return new Promise((resolve, reject) => this.auth.signOut().then(resolve).catch(reject));
     };
 
     getCurrentUserInfo = () => {
@@ -56,7 +55,10 @@ class Firebase {
             .doc(uid)
             .get()
             .then(user => {
-                return user;
+                return user.data();
+            })
+            .then(x => {
+                return x;
             })
             .catch(x => {
                 return 'NO USER';

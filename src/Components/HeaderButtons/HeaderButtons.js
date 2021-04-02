@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FirebaseContext } from '../../Firebase';
 import ROUTES from '../../Constants/Routes';
@@ -7,11 +7,20 @@ import './HeaderButtons.scss';
 
 function HeaderButtons(props) {
     const history = useHistory();
-    const { auth, logOutUser } = useContext(FirebaseContext);
-    const user = auth.currentUser;
+    const { auth, logOutUser, getCurrentUserInfo } = useContext(FirebaseContext);
+    const [userType, setUserType] = useState(null);
+
+    useEffect(() => {
+        if (auth.currentUser) {
+            getCurrentUserInfo().then(x => {
+                const { type } = x;
+                setUserType(type);
+            });
+        }
+    }, []);
 
     const onClickHandler = () => {
-        logOutUser().then(_=> {
+        logOutUser().then(_ => {
             history.push('/login');
         });
     };
@@ -24,7 +33,7 @@ function HeaderButtons(props) {
         {
             content: 'Profile',
             key: keyGenerator(),
-            linkData: { to: `${ROUTES.PROFILE}${user && user.uid}` },
+            linkData: { to: `${ROUTES.PROFILE}${auth.currentUser && auth.currentUser.uid}` },
         },
         {
             content: <i className="fas fa-shopping-cart"></i>,
@@ -32,7 +41,7 @@ function HeaderButtons(props) {
             linkData: { to: ROUTES.SHOPPING_CART },
         },
         { content: 'About', key: keyGenerator(), linkData: { to: ROUTES.ABOUT } },
-        { content: 'LogOut', key: keyGenerator(), linkData: { onClick: onClickHandler,to: ROUTES.SING_IN} },
+        { content: 'LogOut', key: keyGenerator(), linkData: { onClick: onClickHandler, to: ROUTES.SING_IN } },
     ];
 
     const loggedInButtons = () => {
@@ -59,7 +68,20 @@ function HeaderButtons(props) {
         });
     };
 
-    return <ul className="buttons-wrapper">{user ? loggedInButtons() : loggedOutButtons()}</ul>;
+    return (
+        <ul className="buttons-wrapper">
+            {auth.currentUser ? loggedInButtons() : loggedOutButtons()}
+            {userType === 'admin' ? (
+                <li className="buttons-wrapper__header-btn">
+                    <Link className="buttons-wrapper__header-anchor" to="/admin">
+                        ADMIN
+                    </Link>
+                </li>
+            ) : (
+                ''
+            )}
+        </ul>
+    );
 }
 
 export default HeaderButtons;

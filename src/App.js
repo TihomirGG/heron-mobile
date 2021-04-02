@@ -8,28 +8,34 @@ import Profile from './Pages/Profile';
 import About from './Pages/About';
 import Admin from './Pages/Admin';
 import Shop from './Pages/Shop';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FirebaseContext } from './Firebase';
 import Details from './Pages/Details';
 
 function App(props) {
     const fireBase = useContext(FirebaseContext);
-    const currentUser = fireBase.auth.currentUser;
-    let type = '';
+    const [userType, setUserType] = useState(null);
+    const [currentUser, setCurrentUser] = useState(null);
 
-    if (currentUser) {
-        fireBase
-            .getCurrentUserInfo()
-            .then(x => {
-                type = x.type;
-            })
-            .catch(console.log);
-    }
+    useEffect(() => {
+        const user = fireBase.auth.currentUser;
+        if (user) {
+            fireBase.getCurrentUserInfo().then(x => {
+                const { type } = x;
+
+                setUserType(type);
+            });
+        }
+        setCurrentUser(user);
+    }, []);
 
     return (
         <div className="app">
             <Router>
                 <Switch>
+                    <Route exact path={ROUTES.ADMIN}>
+                        {userType==='admin' ? <Admin /> : <Redirect to="/login" />}
+                    </Route>
                     <Route exact path={ROUTES.SIGN_UP}>
                         {currentUser ? <Redirect to="/shop" /> : <Register />}
                     </Route>
@@ -44,9 +50,6 @@ function App(props) {
                     </Route>
                     <Route exact path={ROUTES.ABOUT}>
                         <About />
-                    </Route>
-                    <Route exact path={ROUTES.ADMIN}>
-                        {currentUser && type === 'admin' ? <Admin /> : <Redirect to="/login" />}
                     </Route>
                     <Route exact path={ROUTES.SHOP}>
                         {currentUser ? <Shop /> : <Redirect to="/login" />}
