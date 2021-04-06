@@ -1,0 +1,18 @@
+.options-wrapper {
+    width: 40%;
+    margin: 0 auto;
+
+    &__header {
+        margin-top: 25px;
+        font-family: 'Roboto' , monospace;
+        color: #e4e6eb;
+        font-size: 26px;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    &__options{
+        display: flex;
+        justify-content: space-evenly;
+    }
+}

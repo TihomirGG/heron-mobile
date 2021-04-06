@@ -11,6 +11,7 @@ import Shop from './Pages/Shop';
 import { useContext, useEffect, useState } from 'react';
 import { FirebaseContext } from './Firebase';
 import Details from './Pages/Details';
+import Listing from './Pages/Listing';
 
 function App(props) {
     const fireBase = useContext(FirebaseContext);
@@ -76,7 +77,7 @@ function App(props) {
                         {user ? <Shop /> : <Redirect to="/login" />}
                     </Route>
                     <Route exact path={ROUTES.CASES}>
-                        {user ? <Shop /> : <Redirect to="/login" />}
+                        {user ? <Listing /> : <Redirect to="/login" />}
                     </Route>
                 </Switch>
             </Router>
