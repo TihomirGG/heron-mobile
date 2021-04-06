@@ -11,5 +11,5 @@ export default {
     CASES: '/shop/cases',
     PROTECTORS: '/shop/protectors',
     CABLES: '/shop/cables',
-    DETAILS: '/details/',
+    DETAILS: '/shop/details/',
 };

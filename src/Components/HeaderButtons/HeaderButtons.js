@@ -52,16 +52,22 @@ function HeaderButtons(props) {
             linkData: { to: ROUTES.SHOPPING_CART },
         },
         { content: 'About', key: keyGenerator(), linkData: { to: ROUTES.ABOUT } },
-        { content: 'LogOut', key: keyGenerator(), linkData: { onClick: onClickHandler} },
+        { content: 'LogOut', key: keyGenerator(), linkData: { onClick: onClickHandler } },
     ];
 
     const loggedInButtons = () => {
         return logged.map(x => {
             return (
                 <li key={x.key} className="buttons-wrapper__header-btn">
-                    <Link className="buttons-wrapper__header-anchor" {...x.linkData}>
-                        {x.content}
-                    </Link>
+                    {x.linkData.to ? (
+                        <Link className="buttons-wrapper__header-anchor" {...x.linkData}>
+                            {x.content}
+                        </Link>
+                    ) : (
+                        <a href="" {...x.linkData}>
+                            {x.content}
+                        </a>
+                    )}
                 </li>
             );
         });

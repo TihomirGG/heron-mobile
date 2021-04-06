@@ -63,8 +63,6 @@ class Firebase {
             .catch(x => {
                 return 'NO USER';
             });
-
-       
     };
 
     takeCategoryTypes = category => {
@@ -111,6 +109,20 @@ class Firebase {
                 }
             )
         );
+    };
+
+    getSpecificItem = id => {
+        return this.db
+            .collection('items')
+            .doc(id)
+            .get()
+            .then(x => {
+                return x.data();
+            })
+            .then(x => {
+                return x;
+            })
+            .catch(console.log);
     };
 }
 
