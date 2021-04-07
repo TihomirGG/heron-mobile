@@ -7,3 +7,12 @@ export const keyGenerator = () => {
     });
     return uuid;
 };
+
+export const paginate = (items, pageNumber, pageSize) => {
+    const startIndex = +(pageNumber - 1) * +pageSize;
+    const endIndex = +startIndex + +pageSize;
+    console.log(startIndex, endIndex);
+    const data =items.slice(startIndex, endIndex);
+    console.log(data);
+    return data;
+};

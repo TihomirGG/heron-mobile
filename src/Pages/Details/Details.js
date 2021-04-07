@@ -29,6 +29,7 @@ function Details(porps) {
                             <p className="detail-wrapper__paragraph">
                                 {Number(itemInfo.quantity) > 0 ? 'In Stock' : 'Еxhausted'}
                             </p>
+                            <p className="detail-wrapper__paragraph">Material: {itemInfo.type}</p>
                             <p className="detail-wrapper__paragraph">Price: {Number(itemInfo.price).toFixed(2)}$</p>
                             <button className="detail-wrapper__btn">Add to cart</button>
                         </div>

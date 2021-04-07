@@ -1,0 +1,23 @@
+.products-container {
+    width: 58%;
+    margin: 0 auto;
+    padding: 20px 30px;
+    border-radius: 10px;
+    background-color: #242526;
+    display: grid;
+    grid-template-columns: repeat(5, 150px);
+    grid-template-rows: repeat(auto-fit, 180px);
+    grid-column-gap: 31.7px;
+    grid-row-gap: 20px;
+}
+
+.pagination-container {
+    width: 58%;
+    margin: 20px auto;
+
+    &__page-info {
+        color: #e4e6eb;
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 14px;
+    }
+}

@@ -84,7 +84,7 @@ class Firebase {
 
     uploadItem = data => {
         const { color, image, title, price, quantity, type, phone, description, itemType } = data;
-
+        const id = keyGenerator();
         const uploadTask = this.storage.ref(`images/${image.name}`).put(image);
         return new Promise((resolve, reject) =>
             uploadTask.on(
@@ -101,8 +101,8 @@ class Firebase {
                         .then(url => {
                             this.db
                                 .collection('items')
-                                .doc(keyGenerator())
-                                .set({ color, url, title, price, quantity, type, phone, description, itemType })
+                                .doc(id)
+                                .set({ color, url, title, price, quantity, type, phone, description, itemType, id })
                                 .then(resolve)
                                 .catch(reject);
                         });
@@ -121,6 +121,25 @@ class Firebase {
             })
             .then(x => {
                 return x;
+            })
+            .catch(console.log);
+    };
+
+    getProducts = itemType => {
+        return this.db
+            .collection('items')
+            .where('itemType', '==', itemType)
+            .get()
+            .then(x => {
+                if (x.empty) {
+                    return [];
+                }
+                const items = [];
+                x.forEach(item => {
+                    const data = item.data();
+                    items.push(data);
+                });
+                return items;
             })
             .catch(console.log);
     };

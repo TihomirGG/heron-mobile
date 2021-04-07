@@ -48,23 +48,22 @@ function App(props) {
         <div className="app">
             <Router>
                 <Switch>
+                    <Route exact path={ROUTES.CASES}>
+                        {user ? <Listing /> : <Redirect to="/login" />}
+                    </Route>
                     <Route exact path={`${ROUTES.DETAILS}:id`}>
                         <Details /> {/*  : <Redirect to="/login" />} */}
                     </Route>
                     <Route exact path={ROUTES.ADMIN}>
-                        {console.log(userType)}
                         {userType === 'admin' ? <Admin /> : <Redirect to="/login" />}
                     </Route>
                     <Route exact path={ROUTES.SIGN_UP}>
-                        {console.log('reg')}
                         {user ? <Redirect to="/shop" /> : <Register />}
                     </Route>
                     <Route exact path={ROUTES.SING_IN}>
-                        {console.log('login')}
                         {user ? <Redirect to="/shop" /> : <Login />}
                     </Route>
                     <Route exact path={ROUTES.HOME}>
-                        {console.log('home')}
                         {user ? <Redirect to="/shop" /> : <Home />}
                     </Route>
                     <Route exact path={`${ROUTES.PROFILE}:id`}>
@@ -75,9 +74,6 @@ function App(props) {
                     </Route>
                     <Route exact path={ROUTES.SHOP}>
                         {user ? <Shop /> : <Redirect to="/login" />}
-                    </Route>
-                    <Route exact path={ROUTES.CASES}>
-                        {user ? <Listing /> : <Redirect to="/login" />}
                     </Route>
                 </Switch>
             </Router>

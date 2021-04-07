@@ -1,7 +1,8 @@
 import './About.scss';
+import PageLayout from '../../Components/PageLayout';
 
 function About(props) {
-    return <div>ABOUT</div>;
+    return (<PageLayout></PageLayout>)
 }
 
 export default About;

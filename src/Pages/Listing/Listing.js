@@ -1,12 +1,13 @@
 import Options from '../../Components/Options/Options';
 import PageLayout from '../../Components/PageLayout';
+import Products from '../../Components/Products';
 import './Listing.scss';
 
 function Listing(props) {
     return (
         <PageLayout>
             <Options />
-            <div>LISTING PAGE</div>
+            <Products />
         </PageLayout>
     );
 }

@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { FirebaseContext } from '../../Firebase';
 import { keyGenerator } from '../../Utils';
+import { withRouter } from 'react-router-dom';
 import './CaseForm.scss';
 
 class CaseForm extends Component {
@@ -50,7 +51,8 @@ class CaseForm extends Component {
         const data = { color, image, title, price, quantity, type, phone, description, itemType: 'case' };
         const { uploadItem } = this.context;
         uploadItem(data).then(x => {
-            console.log(this.props);
+           console.log(this.props);
+           this.props.history.push('/shop');
         });
     };
 
@@ -80,7 +82,7 @@ class CaseForm extends Component {
                 <label htmlFor="type">
                     Type:
                     <select defaultValue="default" onChange={e => this.onChangeHandler(e)} name="type">
-                        <option value="default" >None</option>
+                        <option value="default">None</option>
                         {this.state.categoryTypes.map(x => {
                             return (
                                 <option key={keyGenerator()} value={x}>
@@ -97,10 +99,16 @@ class CaseForm extends Component {
                 <label htmlFor="image">
                     <input onChange={e => this.onChangeImage(e)} type="file" name="image" />
                 </label>
-                <button onClick={e => {this.onClickHanler(e)}}>Submit</button>
+                <button
+                    onClick={e => {
+                        this.onClickHanler(e);
+                    }}
+                >
+                    Submit
+                </button>
             </form>
         );
     }
 }
 
-export default CaseForm;
+export default withRouter(CaseForm);
