@@ -1,7 +1,10 @@
 import { Component } from 'react';
 import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 import PageLayout from '../../Components/PageLayout';
 import { FirebaseContext } from '../../Firebase';
+import ROUTES from '../../Constants/Routes';
+import './Login.scss';
 
 class Login extends Component {
     constructor(props) {
@@ -26,8 +29,7 @@ class Login extends Component {
         const { email, password } = this.state;
         const { loginUser } = this.context;
         const { history } = this.props;
-        loginUser(email, password)
-        .then(_ => {
+        loginUser(email, password).then(_ => {
             history.push('/shop');
         });
     };
@@ -37,9 +39,10 @@ class Login extends Component {
     render() {
         return (
             <PageLayout>
-                <main className="login-wrapper no-height">
-                    <form action="" className="login-form">
-                        <label htmlFor="email" className="login-form__email-label">
+                <main className="login-wrapper">
+                    <form action="" className="login-wrapper__login-form">
+                        <h2 className="login-wrapper__header">Sign In</h2>
+                        <label htmlFor="email" className="login-wrapper__label">
                             Email
                         </label>
                         <input
@@ -48,21 +51,22 @@ class Login extends Component {
                             onChange={e => {
                                 this.onChangeHandler(e);
                             }}
-                            className="login-form__email"
+                            className="login-wrapper__input"
                         />
-                        <label htmlFor="password" className="login-form__password-label">
+                        <label htmlFor="password" className="login-wrapper__label">
                             Password
                         </label>
                         <input
-                            type="text"
+                            type="password"
                             name="password"
                             onChange={e => {
                                 this.onChangeHandler(e);
                             }}
-                            className="login-form__password"
+                            className="login-wrapper__input"
                         />
+                        <Link className="login-wrapper__link" to={ROUTES.SIGN_UP}>Dont have an Accout?</Link>
                         <button
-                            className="login-form__button"
+                            className="login-wrapper__button"
                             onClick={e => {
                                 this.onClickHandler(e);
                             }}

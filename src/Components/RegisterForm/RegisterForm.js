@@ -1,7 +1,8 @@
 import { Component } from 'react';
-import {withRouter} from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import './RegisterForm.scss';
 import { FirebaseContext } from '../../Firebase';
+import ROUTES from '../../Constants/Routes';
 
 class RegisterForm extends Component {
     constructor(props) {
@@ -57,18 +58,25 @@ class RegisterForm extends Component {
 
     render() {
         return (
-            <form action="" method="POST">
+            <form className="register-form" action="" method="POST">
                 {this.state.error ? this.state.errorText : ''}
-                <label htmlFor="email">Email</label>
+                <h2 className="register-form__header">Sign Up</h2>
+                <label className="register-form__label" htmlFor="email">
+                    Email
+                </label>
                 <input
+                    className="register-form__input"
                     required
                     type="email"
                     onChange={e => this.inputHandler(e)}
                     name="email"
                     placeholder="*******@gmail.com"
                 />
-                <label htmlFor="password">Password</label>
+                <label className="register-form__label" htmlFor="password">
+                    Password
+                </label>
                 <input
+                    className="register-form__input"
                     required
                     minLength="6"
                     type="password"
@@ -76,8 +84,11 @@ class RegisterForm extends Component {
                     name="password"
                     placeholder="********"
                 />
-                <label htmlFor="repassword">Repeat Password</label>
+                <label className="register-form__label" htmlFor="repassword">
+                    Repeat Password
+                </label>
                 <input
+                    className="register-form__input"
                     required
                     minLength="6"
                     type="password"
@@ -85,7 +96,8 @@ class RegisterForm extends Component {
                     name="repassword"
                     placeholder="********"
                 />
-                <button type="submit" onClick={e => this.buttonHandler(e)}>
+                <Link to={ROUTES.SING_IN} class="register-form__link">You already an account?</Link>
+                <button className="register-form__button" type="submit" onClick={e => this.buttonHandler(e)}>
                     Register
                 </button>
                 ;

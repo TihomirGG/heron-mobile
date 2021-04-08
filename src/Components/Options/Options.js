@@ -8,7 +8,7 @@ function Options(props) {
 
     return (
         <div className="options-wrapper">
-            <h2 className="options-wrapper__header">Dont miss ours</h2>
+            <h2 className="options-wrapper__header">Dont miss our</h2>
             <div className="options-wrapper__options">
                <Option route={ROUTES.CASES} content="cases"></Option>
                <Option route={ROUTES.PROTECTORS} content="protectors"></Option>

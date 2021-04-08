@@ -48,34 +48,35 @@ function Products(props) {
 
     return (
         <Fragment>
-        <div className="products-container">
-            {items ? null : <p>Loading</p>}
-            {items && paginationData
-                ? paginationData.map(x => {
-                      return (
-                          <Product
-                              key={keyGenerator()}
-                              route={`${ROUTES.DETAILS}${x.id}`}
-                              price={x.price}
-                              imgUrl={x.url}
-                          />
-                      );
-                  })
-                : null}
-            
-        </div>
-        {items ? (
-            <div className="pagination-container">
-                <Pagination className="pagination-container__paginator"
-                    itemsCount={items.length}
-                    pageSize={pageSize}
-                    currentPage={currPage}
-                    onPageChange={handlePageChange}
-                />
-                <p className="pagination-container__page-info">Page {currPage} of {Math.ceil(items.length/ pageSize)}</p>
+            <div className="products-container">
+                {items ? null : <p>Loading</p>}
+                {items && paginationData
+                    ? paginationData.map(x => {
+                          return (
+                              <Product
+                                  key={keyGenerator()}
+                                  route={`${ROUTES.DETAILS}${x.id}`}
+                                  price={x.price}
+                                  imgUrl={x.url}
+                              />
+                          );
+                      })
+                    : null}
+            </div>
+            {items ? (
+                <div className="pagination-container">
+                    <Pagination
+                        className="pagination-container__paginator"
+                        itemsCount={items.length}
+                        pageSize={pageSize}
+                        currentPage={currPage}
+                        onPageChange={handlePageChange}
+                    />
+                    <p className="pagination-container__page-info">{`Page ${currPage} of ${Math.ceil(
+                        items.length / pageSize
+                    )}`}</p>
                 </div>
             ) : null}
-            
         </Fragment>
     );
 }
