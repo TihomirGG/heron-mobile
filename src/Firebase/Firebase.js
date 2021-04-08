@@ -143,6 +143,72 @@ class Firebase {
             })
             .catch(console.log);
     };
+
+    getPhones = () => {
+        const arr = [];
+        return this.db
+            .collection('phones')
+            .get()
+            .then(x => {
+                x.forEach(item => {
+                    const phone = item.data();
+                    arr.push(phone);
+                });
+                return arr;
+            })
+            .catch(console.log);
+    };
+
+    filterItems = (itemType, price, model) => {
+        const arr = [];
+        if (price === 'none' && model === 'none') {
+            return this.getProducts(itemType);
+        } else if (price !== 'none' && model === 'none') {
+            return this.db
+                .collection('items')
+                .where('itemType', '==', itemType)
+                .orderBy('price', price)
+                .get()
+                .then(x => {
+                    x.forEach(item => {
+                        const temp = item.data();
+                        arr.push(temp);
+                    });
+                    console.log(arr);
+                    return arr;
+                })
+                .catch(console.log);
+        } else if (price == 'none' && model != 'none') {
+            return this.db
+                .collection('items')
+                .where('itemType', '==', itemType)
+                .where('model', '==', model)
+                .get()
+                .then(x => {
+                    x.forEach(item => {
+                        const temp = item.data();
+                        arr.push(temp);
+                    });
+                    return arr;
+                })
+                .catch(console.log);
+        } else {
+            return this.db
+                .collection('items')
+                .where('itemType', '==', itemType)
+                .orderBy('price', price)
+                .where('model', '==', model)
+                .get()
+                .then(x => {
+                    x.forEach(item => {
+                        const temp = item.data();
+                        arr.push(temp);
+                    });
+                    return arr;
+                })
+                .catch(console.log);
+        }
+    };
 }
 
 export default Firebase;

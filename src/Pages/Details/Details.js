@@ -24,7 +24,7 @@ function Details(porps) {
                         </div>
                         <div className="detail-wrapper__info-rows">
                             <h2 className="detail-wrapper__header">{itemInfo.title}</h2>
-                            <p className="detail-wrapper__paragraph">Eligible: {itemInfo.phone}</p>
+                            <p className="detail-wrapper__paragraph">Eligible: {itemInfo.model}</p>
                             <p className="detail-wrapper__paragraph">Color: {itemInfo.color}</p>
                             <p className="detail-wrapper__paragraph">
                                 {Number(itemInfo.quantity) > 0 ? 'In Stock' : 'Еxhausted'}

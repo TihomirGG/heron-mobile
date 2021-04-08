@@ -3,20 +3,21 @@ import { useLocation } from 'react-router';
 import ROUTES from '../../Constants/Routes';
 import { FirebaseContext } from '../../Firebase';
 import Product from '../Product';
-import { keyGenerator, paginate } from '../../Utils/index';
-import './Products.scss';
+import { keyGenerator, paginate, takeItemTypeFromRoute } from '../../Utils/index';
 import Pagination from '../Pagination';
+import Filter from '../Filter';
+import './Products.scss';
 
 function Products(props) {
     const fireBase = useContext(FirebaseContext);
     const [items, setItems] = useState(null);
     const [currPage, setCurrentPage] = useState(1);
     const [paginationData, setPaginationData] = useState(null);
+    const [priceState, setPriceState] = useState('none');
+    const [modelState, setModelState] = useState('none');
     const { pathname } = useLocation();
     const pageSize = 20;
-
-    let productType = pathname.substring(6);
-    productType = productType.substring(0, productType.lastIndexOf('s'));
+    const productType = takeItemTypeFromRoute(pathname);
 
     useEffect(() => {
         fireBase
@@ -36,6 +37,14 @@ function Products(props) {
         }
     }, [currPage]);
 
+    useEffect(() => {
+        fireBase.filterItems(productType, priceState, modelState).then(data => {
+            setItems(data);
+            const pageData = paginate(data, currPage, pageSize);
+            setPaginationData(pageData);
+        }).catch(console.log);
+    }, [priceState, modelState]);
+
     const handlePageChange = page => {
         setCurrentPage(page);
     };
@@ -46,8 +55,15 @@ function Products(props) {
         return paginationData;
     };
 
+    const priceOnChangeHandler = e => {
+        if(!e.target.checked)return;
+        const type = e.target.value;
+        setPriceState(type);
+    };
+
     return (
         <Fragment>
+            <Filter priceOnChangeHandler={priceOnChangeHandler} priceState={priceState} type={productType} />
             <div className="products-container">
                 {items ? null : <p>Loading</p>}
                 {items && paginationData

@@ -11,8 +11,27 @@ export const keyGenerator = () => {
 export const paginate = (items, pageNumber, pageSize) => {
     const startIndex = +(pageNumber - 1) * +pageSize;
     const endIndex = +startIndex + +pageSize;
-    console.log(startIndex, endIndex);
-    const data =items.slice(startIndex, endIndex);
-    console.log(data);
+    const data = items.slice(startIndex, endIndex);
     return data;
+};
+
+export const takeItemTypeFromRoute = pathName => {
+    let productType = pathName.substring(6);
+    productType = productType.substring(0, productType.lastIndexOf('s'));
+    return productType;
+};
+
+export const filterOnPrice = (items, type) => {
+    switch (type) {
+        case 'desc':
+            return items.sort((a, b) => {
+                return Number(b.price) - Number(a.price);
+            });
+        case 'asc':
+            return items.sort((a, b) => {
+                return Number(a.price) - Number(b.price);
+            });
+            default: 
+            return items;
+    }
 };

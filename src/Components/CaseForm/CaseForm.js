@@ -12,7 +12,7 @@ class CaseForm extends Component {
             title: '',
             color: '',
             quantity: '',
-            phone: '',
+            model: '',
             price: '',
             description: '',
             image: '',
@@ -47,12 +47,13 @@ class CaseForm extends Component {
 
     onClickHanler = e => {
         e.preventDefault();
-        const { color, image, title, price, quantity, type, phone, description } = this.state;
-        const data = { color, image, title, price, quantity, type, phone, description, itemType: 'case' };
+        const { color, image, title, price, quantity, type, model, description } = this.state;
+        const castedPrice = Number(price);
+        const data = { color, image, title, price: castedPrice, quantity, type, model, description, itemType: 'case' };
         const { uploadItem } = this.context;
         uploadItem(data).then(x => {
-           console.log(this.props);
-           this.props.history.push('/shop');
+            console.log(this.props);
+            this.props.history.push('/shop');
         });
     };
 
@@ -92,9 +93,9 @@ class CaseForm extends Component {
                         })}
                     </select>
                 </label>
-                <label htmlFor="phone">
+                <label htmlFor="model">
                     Phone:
-                    <input onChange={e => this.onChangeHandler(e)} type="text" name="phone" />
+                    <input onChange={e => this.onChangeHandler(e)} type="text" name="model" />
                 </label>
                 <label htmlFor="image">
                     <input onChange={e => this.onChangeImage(e)} type="file" name="image" />
