@@ -55,6 +55,11 @@ function Products(props) {
         return paginationData;
     };
 
+    const modelOnChangeHanler = e => {
+        const model = e.target.value;
+        setModelState(model);
+    }
+
     const priceOnChangeHandler = e => {
         if(!e.target.checked)return;
         const type = e.target.value;
@@ -63,7 +68,7 @@ function Products(props) {
 
     return (
         <Fragment>
-            <Filter priceOnChangeHandler={priceOnChangeHandler} priceState={priceState} type={productType} />
+            <Filter priceOnChangeHandler={priceOnChangeHandler} modelOnChangeHanler={modelOnChangeHanler} priceState={priceState} type={productType} />
             <div className="products-container">
                 {items ? null : <p>Loading</p>}
                 {items && paginationData

@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { FirebaseContext } from '../../Firebase';
 import { keyGenerator } from '../../Utils';
 import './Filter.scss';
 
 function Filter(props) {
-    const { priceOnChangeHandler } = props;
-    const fireBase = FirebaseContext;
+    const { priceOnChangeHandler, modelOnChangeHanler } = props;
+    const fireBase = useContext(FirebaseContext);
     const [filters, setFilters] = useState(null);
     useEffect(() => {
         fireBase
@@ -18,25 +18,56 @@ function Filter(props) {
     return (
         <div className="filter-wrapper">
             <div className="filter-wrapper__price">
-            <label htmlFor="none">none</label>
-                <input onChange={e => priceOnChangeHandler(e)} type="radio" id="none" name="filter" value="none" />
-                <label htmlFor="asc">Ascending</label>
-                <input onChange={e => priceOnChangeHandler(e)} type="radio" id="asc" name="filter" value="asc" />
-                <label htmlFor="desc">Descending</label>
-                <input onChange={e => priceOnChangeHandler(e)} type="radio" id="desc" name="filter" value="desc" />
+                <h2 className="filter-wrapper__header">Price Filter</h2>
+                <label className="filter-wrapper__label" htmlFor="none">
+                    None:
+                </label>
+                <input
+                    className="filter-wrapper__input"
+                    onChange={e => priceOnChangeHandler(e)}
+                    type="radio"
+                    id="none"
+                    name="filter"
+                    value="none"
+                />
+                <label className="filter-wrapper__label" htmlFor="asc">
+                    Ascending:
+                </label>
+                <input
+                    className="filter-wrapper__input"
+                    onChange={e => priceOnChangeHandler(e)}
+                    type="radio"
+                    id="asc"
+                    name="filter"
+                    value="asc"
+                />
+                <label className="filter-wrapper__label" htmlFor="desc">
+                    Descending:
+                </label>
+                <input
+                    className="filter-wrapper__input"
+                    onChange={e => priceOnChangeHandler(e)}
+                    type="radio"
+                    id="desc"
+                    name="filter"
+                    value="desc"
+                />
             </div>
-            <select className="filter-wrapper__dropdown">
-                <option value="none">none</option>
-                {filters
-                    ? filters.map(x => {
-                          return (
-                              <option key={keyGenerator} value={x.phone}>
-                                  {x.phone}
-                              </option>
-                          );
-                      })
-                    : null}
-            </select>
+            <div className="filter-wrapper__model">
+                <h2 className="filter-wrapper__header">Model Filter</h2>
+                <select onChange={e => modelOnChangeHanler(e)} className="filter-wrapper__dropdown">
+                    <option value="none">none</option>
+                    {filters
+                        ? filters.map((x, i) => {
+                              return (
+                                  <option key={i} value={x.phone}>
+                                      {x.phone}
+                                  </option>
+                              );
+                          })
+                        : null}
+                </select>
+            </div>
         </div>
     );
 }

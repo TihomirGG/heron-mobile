@@ -1,4 +1,5 @@
 import { useLocation, Link } from 'react-router-dom';
+import './Option.scss';
 
 function Option(props) {
     const { pathname } = useLocation();
@@ -11,7 +12,7 @@ function Option(props) {
         return null;
     }
     return (
-        <Link to={route} className="">
+        <Link to={route} className="options-link">
             {`${content.charAt(0).toUpperCase()}${content.slice(1)}`}
         </Link>
     );

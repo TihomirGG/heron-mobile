@@ -64,7 +64,7 @@ function HeaderButtons(props) {
                             {x.content}
                         </Link>
                     ) : (
-                        <a href="" {...x.linkData}>
+                        <a className="buttons-wrapper__header-a" href="" {...x.linkData}>
                             {x.content}
                         </a>
                     )}

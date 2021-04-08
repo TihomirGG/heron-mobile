@@ -7,6 +7,9 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    font-family: 'Ubuntu', monospace;
+    color: #e4e6eb;
+    text-decoration: none;
 
     &__img-container {
         width: 150px;
