@@ -53,9 +53,13 @@
         bottom: 30px;
     }
 
-    &__btn:hover {
+    &__btn:hover:enabled {
         background-color: #e4e6eb;
         color: #18191a;
+    }
+
+    &__btn:disabled {
+        cursor: default;
     }
 }
 

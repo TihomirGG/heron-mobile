@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FirebaseContext } from '../../Firebase';
+import Cart from '../Cart/Cart';
 import ROUTES from '../../Constants/Routes';
 import { keyGenerator } from '../../Utils';
 import './HeaderButtons.scss';
@@ -47,7 +48,7 @@ function HeaderButtons(props) {
             linkData: { to: `${ROUTES.PROFILE}${auth.currentUser && auth.currentUser.uid}` },
         },
         {
-            content: <i className="fas fa-shopping-cart"></i>,
+            content: <Cart />,
             key: keyGenerator(),
             linkData: { to: ROUTES.SHOPPING_CART },
         },

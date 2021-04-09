@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
 import { FirebaseContext } from '../../Firebase';
-import { keyGenerator } from '../../Utils';
 import './Filter.scss';
 
 function Filter(props) {

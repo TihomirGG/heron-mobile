@@ -209,6 +209,22 @@ class Firebase {
                 .catch(console.log);
         }
     };
+
+    addOrderItems = (userId, itemId) => {
+        return this.db
+            .collection('activeOrders')
+            .doc()
+            .set({ userId, itemId })
+            .then(x => {
+                return 'Successfuly added to the cart';
+            })
+            .catch(console.log);
+    };
+
+    cartSub = () => {
+        const userId = this.auth.currentUser.uid;
+        return this.db.collection('activeOrders').where('userId', '==', userId);
+    };
 }
 
 export default Firebase;

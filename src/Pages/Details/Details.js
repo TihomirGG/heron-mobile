@@ -1,22 +1,37 @@
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import './Details.scss';
 import { FirebaseContext } from '../../Firebase';
 import PageLayout from '../../Components/PageLayout';
+import SuccessMessage from '../../Components/SuccessMessage';
+import './Details.scss';
 
 function Details(porps) {
     const fireBase = useContext(FirebaseContext);
     const { id } = useParams();
     const [itemInfo, setItemInfo] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
 
     useEffect(() => {
         fireBase.getSpecificItem(id).then(x => setItemInfo(x));
     }, []);
 
+    const onClickHandler = e => {
+        if (e.target.disabled) return;
+        const userId = fireBase.auth.currentUser.uid;
+        const itemId = id;
+        fireBase.addOrderItems(userId, itemId).then(x => {
+            setSuccessMessage(x);
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 2000);
+        });
+    };
+
     return (
         <PageLayout>
             {itemInfo ? (
                 <div>
+                    {successMessage ? <SuccessMessage message={successMessage} /> : null}
                     <div className="detail-wrapper">
                         {console.log(itemInfo)}
                         <div className="detail-wrapper__img-container">
@@ -31,7 +46,13 @@ function Details(porps) {
                             </p>
                             <p className="detail-wrapper__paragraph">Material: {itemInfo.type}</p>
                             <p className="detail-wrapper__paragraph">Price: {Number(itemInfo.price).toFixed(2)}$</p>
-                            <button className="detail-wrapper__btn">Add to cart</button>
+                            <button
+                                onClick={e => onClickHandler(e)}
+                                className="detail-wrapper__btn"
+                                disabled={Number(itemInfo.quantity) > 0 ? false : true}
+                            >
+                                Add to cart
+                            </button>
                         </div>
                     </div>
                     <div className="description-wrapper">
