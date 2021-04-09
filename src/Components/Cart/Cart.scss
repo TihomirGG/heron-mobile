@@ -1,0 +1,14 @@
+.cart-container {
+    position: relative;
+
+    &__circle {
+        position: absolute;
+        border-radius: 50%;
+        background-color: red;
+        padding: 2px 4px;
+        top: -5px;
+        right: -5px;
+        font-size: 12px;
+        z-index: 1;
+    }
+}

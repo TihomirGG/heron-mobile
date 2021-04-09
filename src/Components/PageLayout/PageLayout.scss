@@ -1,0 +1,9 @@
+.page-wrapper {
+    background-color: #18191A;
+    display: flex;
+    flex-direction: column;
+    
+   &__content {
+       flex-grow: 1;
+   }
+}
