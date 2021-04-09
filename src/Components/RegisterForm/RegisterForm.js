@@ -96,7 +96,7 @@ class RegisterForm extends Component {
                     name="repassword"
                     placeholder="********"
                 />
-                <Link to={ROUTES.SING_IN} class="register-form__link">You already an account?</Link>
+                <Link className="register-form__link" to={ROUTES.SING_IN} class="register-form__link">You already an account?</Link>
                 <button className="register-form__button" type="submit" onClick={e => this.buttonHandler(e)}>
                     Register
                 </button>

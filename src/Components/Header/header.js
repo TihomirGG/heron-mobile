@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import HeaderButtons from '../HeaderButtons/HeaderButtons';
 import Logo from '../Logo/Logo';
-import './header.scss';
+import './Header.scss';
 class Header extends Component {
     
 
