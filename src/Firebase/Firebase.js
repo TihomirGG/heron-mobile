@@ -23,24 +23,33 @@ class Firebase {
     }
 
     createUser = (email, password) => {
-        this.auth
-            .createUserWithEmailAndPassword(email, password)
-            .then(x => {
-                const userData = { email: x.user.email, uid: x.user.uid, adress: '', orders: 0, type: 'user' };
-                this.db
-                    .collection('users')
-                    .doc(x.user.uid)
-                    .set(userData)
-                    .then(c => {
-                        console.log('success');
-                    });
-            })
-            .catch(console.log);
+        return this.auth.createUserWithEmailAndPassword(email, password).then(x => {
+            const userData = {
+                email: x.user.email,
+                uid: x.user.uid,
+                adress: '',
+                orders: 0,
+                type: 'user',
+                password,
+            };
+            this.db
+                .collection('users')
+                .doc(x.user.uid)
+                .set(userData)
+                .then(c => {
+                    console.log('success');
+                });
+        });
     };
 
     loginUser = (email, password) => {
         return new Promise((resolve, reject) =>
-            this.auth.signInWithEmailAndPassword(email, password).then(resolve).catch(reject)
+            this.auth
+                .signInWithEmailAndPassword(email, password)
+                .then(resolve)
+                .catch(e => {
+                    return 'Email or password is wrong';
+                })
         );
     };
 
@@ -111,18 +120,46 @@ class Firebase {
         );
     };
 
-    getSpecificItem = id => {
+    changePassword = async (currentPassword, newPassword) => {
+        const email = this.auth.currentUser.email;
+        const id = this.auth.currentUser.uid;
+        console.log(email);
+        const cred = firebase.auth.EmailAuthProvider.credential(email, currentPassword);
+        console.log(cred);
+        return this.auth.currentUser
+            .reauthenticateWithCredential(cred)
+            .then(x => {
+                return this.auth.currentUser.updatePassword(newPassword);
+            })
+            .then(c => {
+                this.db.collection('users').doc(id).update({ password: newPassword });
+                return 'Password successfuly updated';
+            })
+            .catch(console.log);
+    };
+
+    getCurrentPassword = () => {
+        const id = this.auth.currentUser.uid;
         return this.db
-            .collection('items')
+            .collection('users')
             .doc(id)
             .get()
             .then(x => {
-                return x.data();
-            })
-            .then(x => {
-                return x;
+                const { password } = x.data();
+                return password;
             })
             .catch(console.log);
+    };
+
+    getSpecificItem = async id => {
+        try {
+            const res = await this.db.collection('items').doc(id).get();
+            const data = await res.data();
+
+            return data;
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     getProducts = itemType => {
@@ -148,6 +185,36 @@ class Firebase {
         const arr = [];
         return this.db
             .collection('phones')
+            .get()
+            .then(x => {
+                x.forEach(item => {
+                    const phone = item.data();
+                    arr.push(phone);
+                });
+                return arr;
+            })
+            .catch(console.log);
+    };
+
+    getCables = () => {
+        const arr = [];
+        return this.db
+            .collection('cables')
+            .get()
+            .then(x => {
+                x.forEach(item => {
+                    const phone = item.data();
+                    arr.push(phone);
+                });
+                return arr;
+            })
+            .catch(console.log);
+    };
+
+    getProtectors = () => {
+        const arr = [];
+        return this.db
+            .collection('protectors')
             .get()
             .then(x => {
                 x.forEach(item => {
@@ -224,6 +291,92 @@ class Firebase {
     cartSub = () => {
         const userId = this.auth.currentUser.uid;
         return this.db.collection('activeOrders').where('userId', '==', userId);
+    };
+
+    takeCartItemIds = () => {
+        const userId = this.auth.currentUser.uid;
+        return this.db
+            .collection('activeOrders')
+            .where('userId', '==', userId)
+            .get()
+            .then(items => {
+                if (items.empty) return;
+                const arr = [];
+                items.forEach(item => {
+                    const { itemId } = item.data();
+                    arr.push(itemId);
+                });
+                return arr;
+            })
+            .catch(console.log);
+    };
+
+    getItemsForCart = async () => {
+        try {
+            const ids = await this.takeCartItemIds();
+            const items = [];
+            if (ids.length) {
+                ids.forEach(x => {
+                    const temp = this.db
+                        .collection('items')
+                        .doc(x)
+                        .get()
+                        .then(x => x.data());
+                    items.push(temp);
+                });
+
+                return Promise.all([...items]).then(x => x);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    removeItemFromCart = async itemId => {
+        const userId = this.auth.currentUser.uid;
+        await this.db
+            .collection('activeOrders')
+            .where('userId', '==', userId)
+            .where('itemId', '==', itemId)
+            .limit(1)
+            .get()
+            .then(x => {
+                x.forEach(item => {
+                    this.db.collection('activeOrders').doc(item.id).delete();
+                });
+            });
+
+        return await this.getItemsForCart();
+    };
+
+    updateUserAdress = adress => {
+        const id = this.auth.currentUser.uid;
+        this.db.collection('users').doc(id).update({ adress: adress });
+    };
+
+    buy = () => {
+        const id = this.auth.currentUser.uid;
+        this.db
+            .collection('users')
+            .doc(id)
+            .get()
+            .then(x => {
+                const { orders } = x.data();
+                const updated = Number(orders) + 1;
+                this.db.collection('users').doc(id).update({ orders: updated });
+            })
+            .catch(console.log);
+        debugger;
+        console.log(id);
+        return this.db
+            .collection('activeOrders')
+            .where('userId', '==', id)
+            .get()
+            .then(x => {
+                x.forEach(item => {
+                    this.db.collection('activeOrders').doc(item.id).delete();
+                });
+            });
     };
 }
 

@@ -11,7 +11,10 @@ function Cart(props) {
                 if (snapShot.size > 0) {
                     const size = snapShot.size;
                     setCount(size);
+                }else if(snapShot.empty) {
+                    setCount(null);
                 }
+                
             },
             err => {
                 console.log(err);
