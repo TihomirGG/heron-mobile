@@ -111,18 +111,15 @@ class Firebase {
         );
     };
 
-    getSpecificItem = id => {
-        return this.db
-            .collection('items')
-            .doc(id)
-            .get()
-            .then(x => {
-                return x.data();
-            })
-            .then(x => {
-                return x;
-            })
-            .catch(console.log);
+    getSpecificItem = async id => {
+        try {
+            const res = await this.db.collection('items').doc(id).get();
+            const data = await res.data();
+
+            return data;
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     getProducts = itemType => {
@@ -224,6 +221,59 @@ class Firebase {
     cartSub = () => {
         const userId = this.auth.currentUser.uid;
         return this.db.collection('activeOrders').where('userId', '==', userId);
+    };
+
+    takeCartItemIds = () => {
+        const userId = this.auth.currentUser.uid;
+        return this.db
+            .collection('activeOrders')
+            .where('userId', '==', userId)
+            .get()
+            .then(items => {
+                if (items.empty) return;
+                const arr = [];
+                items.forEach(item => {
+                    const { itemId } = item.data();
+                    arr.push(itemId);
+                });
+                return arr;
+            })
+            .catch(console.log);
+    };
+
+    getItemsForCart = async () => {
+        try {
+            const ids = await this.takeCartItemIds();
+            console.log(ids);
+
+            const items = [];
+            ids.forEach(async x => {
+                const result = await this.getSpecificItem(x);
+
+                items.push(result);
+            });
+            console.log(items);
+            return items;
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    removeItemFromCart = itemId => {
+        const userId = this.auth.currentUser.uid;
+        this.db
+            .collection('activeOrders')
+            .where('userId', '==', userId)
+            .where('itemId', '==', itemId)
+            .limit(1)
+            .get()
+            .then(x => {
+                x.forEach(item => {
+                    this.db.collection('activeOrders').doc(item.id).delete();
+                });
+            });
+
+        return this.getItemsForCart();
     };
 }
 

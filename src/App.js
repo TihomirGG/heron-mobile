@@ -8,6 +8,7 @@ import Profile from './Pages/Profile';
 import About from './Pages/About';
 import Admin from './Pages/Admin';
 import Shop from './Pages/Shop';
+import ShoppingCart from './Components/ShoppingCart';
 import { useContext, useEffect, useState } from 'react';
 import { FirebaseContext } from './Firebase';
 import Details from './Pages/Details';
@@ -48,6 +49,9 @@ function App(props) {
         <div className="app">
             <Router>
                 <Switch>
+                    <Route exact path={ROUTES.SHOPPING_CART}>
+                        {user ? <ShoppingCart /> : <Redirect to="/login" />}
+                    </Route>
                     <Route exact path={ROUTES.CASES}>
                         {user ? <Listing /> : <Redirect to="/login" />}
                     </Route>
