@@ -1,0 +1,13 @@
+.error {
+    text-align: center;
+    width: 200px;
+    color: red;
+    background-color: lightcoral;
+    padding: 10px 10px;
+    border-radius: 5px;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    /* transition: transf; */
+    transform: translate(-50%,-50%);
+}

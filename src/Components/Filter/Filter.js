@@ -1,18 +1,38 @@
 import { useEffect, useState, useContext } from 'react';
+import { useLocation } from 'react-router';
 import { FirebaseContext } from '../../Firebase';
+import { takeItemTypeFromRoute } from '../../Utils';
 import './Filter.scss';
 
 function Filter(props) {
     const { priceOnChangeHandler, modelOnChangeHanler } = props;
     const fireBase = useContext(FirebaseContext);
     const [filters, setFilters] = useState(null);
+    const { pathname } = useLocation();
     useEffect(() => {
-        fireBase
-            .getPhones()
-            .then(x => {
-                setFilters(x);
-            })
-            .catch(console.log);
+        const item = takeItemTypeFromRoute(pathname.substring(6));
+        if (item === 'case') {
+            fireBase
+                .getPhones()
+                .then(x => {
+                    setFilters(x);
+                })
+                .catch(console.log);
+        } else if (item === 'cable') {
+            fireBase
+                .getCables()
+                .then(x => {
+                    setFilters(x);
+                })
+                .catch(console.log);
+        } else {
+            fireBase
+                .getProtectors()
+                .then(x => {
+                    setFilters(x);
+                })
+                .catch(console.log);
+        }
     }, []);
     return (
         <div className="filter-wrapper">
@@ -59,7 +79,7 @@ function Filter(props) {
                     {filters
                         ? filters.map((x, i) => {
                               return (
-                                  <option key={i} value={x.phone}>
+                                  <option key={i} value={x.type}>
                                       {x.phone}
                                   </option>
                               );

@@ -48,6 +48,11 @@ function HeaderButtons(props) {
             linkData: { to: `${ROUTES.PROFILE}${auth.currentUser && auth.currentUser.uid}` },
         },
         {
+            content: 'Shop',
+            key: keyGenerator(),
+            linkData: { to: `${ROUTES.SHOP}` },
+        },
+        {
             content: <Cart />,
             key: keyGenerator(),
             linkData: { to: ROUTES.SHOPPING_CART },

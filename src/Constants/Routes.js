@@ -12,4 +12,5 @@ export default {
     PROTECTORS: '/shop/protectors',
     CABLES: '/shop/cables',
     DETAILS: '/shop/details/',
+    ORDER: '/order',
 };

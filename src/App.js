@@ -13,6 +13,7 @@ import { useContext, useEffect, useState } from 'react';
 import { FirebaseContext } from './Firebase';
 import Details from './Pages/Details';
 import Listing from './Pages/Listing';
+import AcceptedOrder from './Components/AcceptedOrder';
 
 function App(props) {
     const fireBase = useContext(FirebaseContext);
@@ -55,8 +56,14 @@ function App(props) {
                     <Route exact path={ROUTES.CASES}>
                         {user ? <Listing /> : <Redirect to="/login" />}
                     </Route>
+                    <Route exact path={ROUTES.PROTECTORS}>
+                        {user ? <Listing /> : <Redirect to="/login" />}
+                    </Route>
+                    <Route exact path={ROUTES.CABLES}>
+                        {user ? <Listing /> : <Redirect to="/login" />}
+                    </Route>
                     <Route exact path={`${ROUTES.DETAILS}:id`}>
-                        <Details /> {/*  : <Redirect to="/login" />} */}
+                        <Details />
                     </Route>
                     <Route exact path={ROUTES.ADMIN}>
                         {userType === 'admin' ? <Admin /> : <Redirect to="/login" />}
@@ -69,6 +76,9 @@ function App(props) {
                     </Route>
                     <Route exact path={ROUTES.HOME}>
                         {user ? <Redirect to="/shop" /> : <Home />}
+                    </Route>
+                    <Route exact path={ROUTES.ORDER}>
+                        <AcceptedOrder />
                     </Route>
                     <Route exact path={`${ROUTES.PROFILE}:id`}>
                         {user ? <Profile /> : <Redirect to="/login" />}

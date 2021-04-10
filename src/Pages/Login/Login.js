@@ -3,15 +3,18 @@ import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../Components/PageLayout';
 import { FirebaseContext } from '../../Firebase';
+import ErrorMessage from '../../Components/ErrorMessage';
 import ROUTES from '../../Constants/Routes';
 import './Login.scss';
 
 class Login extends Component {
     constructor(props) {
         super(props);
+        debugger;
         this.state = {
             email: undefined,
             password: undefined,
+            error: undefined,
         };
     }
 
@@ -29,9 +32,27 @@ class Login extends Component {
         const { email, password } = this.state;
         const { loginUser } = this.context;
         const { history } = this.props;
-        loginUser(email, password).then(_ => {
-            history.push('/shop');
-        });
+        loginUser(email, password)
+            .then(err => {
+                console.log(err);
+                if (typeof err === 'string') {
+                    this.setState(oldState => {
+                        return { ...oldState, error: err };
+                    });
+                    return;
+                }
+                history.push('/shop');
+            })
+            .catch(e => {
+                this.setState(oldState => {
+                    return { ...oldState, error: "Invalid email or password" };
+                });
+                setTimeout(() => {
+                    this.setState(oldState => {
+                        return { ...oldState, error: undefined };
+                    });
+                },2000)
+            });
     };
 
     static contextType = FirebaseContext;
@@ -39,6 +60,7 @@ class Login extends Component {
     render() {
         return (
             <PageLayout>
+                {this.state.error ? <ErrorMessage message={this.state.error} /> : null}
                 <main className="login-wrapper">
                     <form action="" className="login-wrapper__login-form">
                         <h2 className="login-wrapper__header">Sign In</h2>
@@ -64,7 +86,9 @@ class Login extends Component {
                             }}
                             className="login-wrapper__input"
                         />
-                        <Link className="login-wrapper__link" to={ROUTES.SIGN_UP}>Dont have an Accout?</Link>
+                        <Link className="login-wrapper__link" to={ROUTES.SIGN_UP}>
+                            Dont have an Accout?
+                        </Link>
                         <button
                             className="login-wrapper__button"
                             onClick={e => {

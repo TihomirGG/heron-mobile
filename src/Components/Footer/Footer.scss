@@ -7,4 +7,13 @@
     transform: translateX(-50%);
     width: 100%;
     color: hsl(223, 15%, 91%);
+    p {
+        font-family: 'Ubuntu', sans-serif;
+        margin: 0 auto;
+        width: 160px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }
